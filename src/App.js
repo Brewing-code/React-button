@@ -1,26 +1,28 @@
-// src/App.js
-import React, { useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './App.css';
 
 function App() {
-  const [buttonAdded, setButtonAdded] = useState(false);
+  const buttonContainerRef = useRef(null);
 
-  const addButtonToDOM = () => {
-    setButtonAdded(true);
-  };
+  useEffect(() => {
+    function createButton() {
+      const button = document.createElement('button');
+      const label = document.createTextNode('ETIQUETA');
+      button.appendChild(label);
+      button.classList.add('btn');
+      return button;
+    }
+
+    if (buttonContainerRef.current) {
+      const button = createButton();
+      buttonContainerRef.current.appendChild(button);
+    }
+  }, []);
 
   return (
     <div className="App">
       <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <div id="root">
-          {buttonAdded && (
-            <button className="btn">ETIQUETA</button>
-          )}
-        </div>
-        <button onClick={addButtonToDOM}>Add Button</button>
+        <div ref={buttonContainerRef}></div> {/* Contenedor para el botón */}
       </header>
     </div>
   );
